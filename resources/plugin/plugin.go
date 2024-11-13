@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	Name    = "images-instances"
+	Name    = "image-packages"
 	Kind    = "source"
 	Team    = "guardian"
 	Version = "development"

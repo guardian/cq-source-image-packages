@@ -1,9 +1,9 @@
 kind: source
 spec:
-  name: 'images-instances'
+  name: 'image-packages'
   version: v1.0.0
   destinations: [test]
-  path: ./cq-source-images-instances
+  path: ./cq-source-image-packages
   registry: local
   tables: ["*"]
   spec:

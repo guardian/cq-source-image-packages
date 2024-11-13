@@ -64,7 +64,7 @@ jobs:
       - name: Find and Replace
         uses: jacobtomlinson/gha-find-replace@3a8ed858a4e3fb487c6f53658ec40b2b1d45d9d8
         with:
-          find: "(?i)version_source_images-instances"
+          find: "(?i)version_source_image-packages"
           replace: ${{ steps.semver_parser.outputs.fullversion }}
           include: ./docs/*.md
 

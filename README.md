@@ -1,9 +1,9 @@
-# CloudQuery images-instances Source Plugin
+# CloudQuery Image Packages Source Plugin
 
-[![test](https://github.com/guardian/cq-source-images-instances/actions/workflows/test.yaml/badge.svg)](https://github.com/guardian/cq-source-images-instances/actions/workflows/test.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/guardian/cq-source-images-instances)](https://goreportcard.com/report/github.com/guardian/cq-source-images-instances)
+[![test](https://github.com/guardian/cq-source-image-packages/actions/workflows/test.yaml/badge.svg)](https://github.com/guardian/cq-source-image-packages/actions/workflows/test.yaml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/guardian/cq-source-image-packages)](https://goreportcard.com/report/github.com/guardian/cq-source-image-packages)
 
-A images-instances source plugin for CloudQuery that loads data from images-instances to any database, data warehouse or data lake supported by [CloudQuery](https://www.cloudquery.io/), such as PostgreSQL, BigQuery, Athena, and many more.
+An image packages source plugin for CloudQuery that loads data from S3 and Dynamo DB to any database, data warehouse or data lake supported by [CloudQuery](https://www.cloudquery.io/), such as PostgreSQL, BigQuery, Athena, and many more.
 
 ## Links
 
@@ -18,8 +18,8 @@ The following source configuration file will sync to a PostgreSQL database. See 
 ```yaml
 kind: source
 spec:
-  name: "images-instances"
-  path: "guardian/images-instances"
+  name: "image-packages"
+  path: "guardian/image-packages"
   version: "${VERSION}"
   destinations:
     - "postgresql"

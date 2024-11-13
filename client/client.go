@@ -2,23 +2,26 @@ package client
 
 import (
 	"context"
-	"fmt"
-	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/guardian/cq-source-images-instances/store"
-	"github.com/rs/zerolog"
-	"os"
+	"log"
 
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/guardian/cq-source-image-packages/store"
+	"github.com/rs/zerolog"
 )
 
 type Client struct {
-	logger zerolog.Logger
-	Spec   Spec
-	Store  store.S3
+	logger          zerolog.Logger
+	Spec            Spec
+	S3Store         store.S3
+	BakesTable      store.DynamoDb
+	RecipesTable    store.DynamoDb
+	BaseImagesTable store.DynamoDb
 }
 
 func (c *Client) ID() string {
-	return "guardian/images-instances"
+	return "guardian/image-packages"
 }
 
 func (c *Client) Logger() *zerolog.Logger {
@@ -35,17 +38,23 @@ func New(ctx context.Context, logger zerolog.Logger, s *Spec) (Client, error) {
 		config.WithRegion("eu-west-1"),
 	)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "unable to load AWS config, %v", err)
-		os.Exit(1)
+		log.Fatalf("unable to load AWS config, %v", err)
 	}
 
-	client := s3.NewFromConfig(cfg)
+	s3Client := s3.NewFromConfig(cfg)
+	s3Store := store.NewS3(s3Client, s.AmigoBucketName, "packagelists")
 
-	s3store := store.New(client, s.AmigoBucketName, "packagelists")
+	dynamoDbClient := dynamodb.NewFromConfig(cfg)
+	bakesTable := store.NewDynamoDb(dynamoDbClient, s.AmigoBakesTableName)
+	recipesTable := store.NewDynamoDb(dynamoDbClient, s.AmigoRecipesTableName)
+	baseImagesTable := store.NewDynamoDb(dynamoDbClient, s.AmigoBaseImagesTableName)
 
 	return Client{
-		logger: logger,
-		Spec:   *s,
-		Store:  s3store,
+		logger:          logger,
+		Spec:            *s,
+		S3Store:         s3Store,
+		BakesTable:      bakesTable,
+		RecipesTable:    recipesTable,
+		BaseImagesTable: baseImagesTable,
 	}, nil
 }

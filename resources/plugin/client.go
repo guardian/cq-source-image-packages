@@ -10,8 +10,8 @@ import (
 	"github.com/cloudquery/plugin-sdk/v4/scheduler"
 	"github.com/cloudquery/plugin-sdk/v4/schema"
 	"github.com/cloudquery/plugin-sdk/v4/transformers"
-	"github.com/guardian/cq-source-images-instances/client"
-	"github.com/guardian/cq-source-images-instances/resources/services"
+	"github.com/guardian/cq-source-image-packages/client"
+	"github.com/guardian/cq-source-image-packages/resources/services"
 	"github.com/rs/zerolog"
 )
 
@@ -70,7 +70,6 @@ func (c *Client) Tables(_ context.Context, options plugin.TableOptions) (schema.
 }
 
 func (*Client) Close(_ context.Context) error {
-	// TODO: Add your client cleanup here
 	return nil
 }
 

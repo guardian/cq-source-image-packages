@@ -1,9 +1,10 @@
-module github.com/guardian/cq-source-images-instances
+module github.com/guardian/cq-source-image-packages
 
 go 1.22.4
 
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.28.0
+	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.37.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.61.0
 	github.com/cloudquery/plugin-sdk/v4 v4.67.1
 	github.com/rs/zerolog v1.33.0
@@ -14,16 +15,17 @@ require (
 	github.com/apache/arrow/go/v13 v13.0.0-20230731205701-112f94971882 // indirect
 	github.com/apache/arrow/go/v17 v17.0.0 // indirect
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
-	github.com/aws/aws-sdk-go-v2 v1.32.2 // indirect
+	github.com/aws/aws-sdk-go-v2 v1.32.4 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.6.4 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.41 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.17 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.21 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.21 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.23 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.23 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.1 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.16 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.3.18 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.10.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.2 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.17.16 // indirect
 	github.com/aws/aws-sdk-go-v2/service/licensemanager v1.29.2 // indirect
@@ -51,6 +53,7 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/invopop/jsonschema v0.12.0 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.8 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect

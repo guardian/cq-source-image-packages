@@ -17,10 +17,9 @@
 
 .DS_Store
 
-cq-source-images-instances
+cq-source-image-packages
 
 dist
 *.log
 
-db.sql
 .idea

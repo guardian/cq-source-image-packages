@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/guardian/cq-source-images-instances/resources/plugin"
+	"github.com/guardian/cq-source-image-packages/resources/plugin"
 
 	"github.com/cloudquery/plugin-sdk/v4/serve"
 )
