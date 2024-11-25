@@ -9,6 +9,10 @@ env:
 jobs:
   release-binary:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
     steps:
 
       - name: Checkout
@@ -20,21 +24,18 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
+          cache: true
 
       - name: Run GoReleaser Dry-Run
-#        uses: goreleaser/goreleaser-action@5742e2a039330cbb23ebf35f046f814d4c6ff811 # v5.1.0
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@5742e2a039330cbb23ebf35f046f814d4c6ff811 # v5.1.0
         with:
-#          version: '~> v1'
-          version: latest
-          args: release --clean --skip=publish,sign,validate
+          version: '~> v1'
+          args: release --clean --skip=validate,publish,sign
 
       - name: Run GoReleaser
-#        uses: goreleaser/goreleaser-action@5742e2a039330cbb23ebf35f046f814d4c6ff811 # v5.1.0
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@5742e2a039330cbb23ebf35f046f814d4c6ff811 # v5.1.0
         with:
-#          version: '~> v1'
-          version: latest
+          version: '~> v1'
           args: release --clean --skip=sign
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
