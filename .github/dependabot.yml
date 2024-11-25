@@ -1,0 +1,19 @@
+version: 2
+updates:
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      # The AWS SDK dependencies must be updated in unison.
+      # See https://github.com/aws/aws-sdk-go-v2/issues/2370#issuecomment-1878423518.
+      aws-sdk:
+        patterns:
+          - "github.com/aws/aws-sdk-go-v2"
+          - "github.com/aws/aws-sdk-go-v2/*"
