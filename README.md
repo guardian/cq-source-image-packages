@@ -24,7 +24,14 @@ spec:
   destinations:
     - "postgresql"
   spec:
-    # plugin spec section
+    # Name of S3 bucket holding Amigo bake package data
+    bucket: ...
+    # Name of Dynamo table holding bake data
+    bakes_table: ...
+    # Name of Dynamo table holding recipe data
+    recipes_table: ...
+    # Name of Dynamo table holding base image data
+    base_images_table: ...
 ```
 
 ## Development
@@ -37,6 +44,8 @@ make test
 
 ### Run linter
 
+To do this, you will need to have [golangci-lint](https://golangci-lint.run/usage/install/) installed.
+
 ```bash
 make lint
 ```
@@ -47,17 +56,9 @@ make lint
 make gen-docs
 ```
 
-### Develop a Web UI for the plugin
-
-See [cloud-config-ui/README.md](cloud-config-ui/README.md) for more information.
-
-### Obtain API key
-
-Please refer to the [documentation](https://docs.cloudquery.io/docs/deployment/generate-api-key) for instructions.
-
 ### Release a new version
 
 1. Run `git tag v1.0.0` to create a new tag for the release (replace `v1.0.0` with the new version number)
 2. Run `git push origin v1.0.0` to push the tag to GitHub  
 
-Once the tag is pushed, a new GitHub Actions workflow will be triggered to build the release binaries and [create the new release](https://docs.cloudquery.io/docs/developers/publishing-an-integration-to-the-hub) on [CloudQuery Hub](https://hub.cloudquery.io).
+Once the tag is pushed, a new GitHub Actions workflow will be triggered to build the release binaries.
