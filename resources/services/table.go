@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -16,14 +17,12 @@ import (
 )
 
 type AmigoBakePackage struct {
-	BaseName    string    `json:"base_name"`
-	BaseAmiId   string    `json:"base_ami_id"` // The 'SourceAMI' field in Amiable
-	BaseEolDate time.Time `json:"base_eol_date"`
-	RecipeId    string    `json:"recipe_id"`
-	BakeId      string    `json:"bake_id"`
-	SourceAmiId string    `json:"ami_id"` // The 'CopiedFromAMI' field in Amiable
-	//TODO AwsAccountId   string    `json:"aws_account_id"`
-	AwsAccountIds  []string  `json:"aws_account_ids"`
+	BaseName       string    `json:"base_name"`
+	BaseAmiId      string    `json:"base_ami_id"` // The 'SourceAMI' field in Amiable
+	BaseEolDate    time.Time `json:"base_eol_date"`
+	RecipeId       string    `json:"recipe_id"`
+	BakeNumber     int       `json:"bake_number"`
+	SourceAmiId    string    `json:"source_ami_id"` // The 'CopiedFromAMI' field in Amiable
 	StartedAt      time.Time `json:"started_at"`
 	StartedBy      string    `json:"started_by"`
 	PackageName    string    `json:"package_name"`
@@ -31,9 +30,8 @@ type AmigoBakePackage struct {
 }
 
 type AmigoRecipe struct {
-	RecipeId      string
-	BaseName      string
-	AwsAccountIds []string
+	RecipeId string
+	BaseName string
 }
 
 type AmigoBaseImage struct {
@@ -50,12 +48,12 @@ type OsPackage struct {
 func AmigoBakePackages() *schema.Table {
 	return &schema.Table{
 		Name:      "amigo_bake_packages",
-		Resolver:  fetchAmigoBakePackages,
+		Resolver:  FetchAmigoBakePackages,
 		Transform: transformers.TransformWithStruct(AmigoBakePackage{}),
 	}
 }
 
-func fetchAmigoBakePackages(_ context.Context, meta schema.ClientMeta, _ *schema.Resource, res chan<- any) error {
+func FetchAmigoBakePackages(_ context.Context, meta schema.ClientMeta, _ *schema.Resource, res chan<- any) error {
 	cl := meta.(*client.Client)
 	s3Store := cl.S3Store
 	bakesTable := cl.BakesTable
@@ -68,19 +66,9 @@ func fetchAmigoBakePackages(_ context.Context, meta schema.ClientMeta, _ *schema
 	for _, recipe := range recipesTable.ListAll() {
 		id := recipe["id"].(*types.AttributeValueMemberS).Value
 		baseName := recipe["baseImageId"].(*types.AttributeValueMemberS).Value
-
-		var accountIds []string
-		if accountIdsAttrib, ok := recipe["encryptFor"]; ok {
-			accountIds = attributeValuesToStrings(accountIdsAttrib.(*types.AttributeValueMemberL).Value)
-		} else {
-			log.Printf("Recipe '%v' has no 'encryptFor' attribute\n", id)
-			accountIds = []string{}
-		}
-
 		allRecipes[id] = AmigoRecipe{
-			RecipeId:      id,
-			BaseName:      baseName,
-			AwsAccountIds: accountIds,
+			RecipeId: id,
+			BaseName: baseName,
 		}
 	}
 
@@ -99,7 +87,11 @@ func fetchAmigoBakePackages(_ context.Context, meta schema.ClientMeta, _ *schema
 	records := map[string]AmigoBakePackage{}
 	for _, bake := range allBakes {
 		recipeId := bake["recipeId"].(*types.AttributeValueMemberS).Value
-		bakeId := bake["buildNumber"].(*types.AttributeValueMemberN).Value
+		bakeNumber, err := strconv.Atoi(bake["buildNumber"].(*types.AttributeValueMemberN).Value)
+		if err != nil {
+			log.Printf("Failed to convert buildNumber to int: %v", err)
+			continue
+		}
 		status := bake["status"].(*types.AttributeValueMemberS).Value
 		startedAt := bake["startedAt"].(*types.AttributeValueMemberS).Value
 		startedBy := bake["startedBy"].(*types.AttributeValueMemberS).Value
@@ -109,7 +101,7 @@ func fetchAmigoBakePackages(_ context.Context, meta schema.ClientMeta, _ *schema
 		if amiIdAttrib, ok := bake["amiId"]; ok {
 			amiId = amiIdAttrib.(*types.AttributeValueMemberS).Value
 		} else {
-			log.Printf("Skipping bake without AMI ID: recipeId: '%v', bakeId: '%v', status: '%v'\n", recipeId, bakeId, status)
+			log.Printf("Skipping bake without AMI ID: recipeId: '%v', bakeId: '%v', status: '%v'\n", recipeId, bakeNumber, status)
 			continue
 		}
 
@@ -117,22 +109,21 @@ func fetchAmigoBakePackages(_ context.Context, meta schema.ClientMeta, _ *schema
 		baseImage := allBaseImages[recipe.BaseName]
 
 		// Fetch corresponding package file from S3
-		packages, err := fetchBakePackages(recipeId, bakeId, s3Store)
+		packages, err := fetchBakePackages(recipeId, bakeNumber, s3Store)
 		if err != nil {
-			log.Fatalf("Error fetching bake packages for recipe '%s', bake '%s': %v", recipeId, bakeId, err)
+			log.Fatalf("Error fetching bake packages for recipe '%s', bake '%d': %v", recipeId, bakeNumber, err)
 		}
 
 		// Create a record for each package
 		for _, pkg := range packages {
-			key := fmt.Sprintf("%s--%s--%s--%s", recipeId, bakeId, amiId, pkg.PackageName)
+			key := fmt.Sprintf("%s--%d--%s--%s", recipeId, bakeNumber, amiId, pkg.PackageName)
 			bakePackage := AmigoBakePackage{
 				BaseName:       recipe.BaseName,
 				BaseAmiId:      baseImage.BaseAmiId,
 				BaseEolDate:    baseImage.BaseEolDate,
 				RecipeId:       recipeId,
-				BakeId:         bakeId,
+				BakeNumber:     bakeNumber,
 				SourceAmiId:    amiId,
-				AwsAccountIds:  recipe.AwsAccountIds,
 				StartedBy:      startedBy,
 				PackageName:    pkg.PackageName,
 				PackageVersion: pkg.PackageVersion,
@@ -171,20 +162,10 @@ func (a *AmigoBakePackage) SetStartedAt(s string) {
 	}
 }
 
-func attributeValuesToStrings(avList []types.AttributeValue) []string {
-	var strList []string
-	for _, av := range avList {
-		if avMemberS, ok := av.(*types.AttributeValueMemberS); ok {
-			strList = append(strList, avMemberS.Value)
-		}
-	}
-	return strList
-}
-
 // given a recipe ID and bake number, fetch corresponding packages file from S3
 // and extract its contents into a list of OsPackages.
-func fetchBakePackages(recipeId string, bakeId string, s3Store store.S3) ([]OsPackage, error) {
-	key := fmt.Sprintf("%s--%s.txt", recipeId, bakeId)
+func fetchBakePackages(recipeId string, bakeNumber int, s3Store store.S3) ([]OsPackage, error) {
+	key := fmt.Sprintf("%s--%d.txt", recipeId, bakeNumber)
 	data, err := s3Store.Get(key)
 
 	if err != nil {
