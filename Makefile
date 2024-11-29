@@ -18,3 +18,9 @@ gen: gen-docs
 .PHONY: serve
 serve:
 	AWS_PROFILE=deployTools go run main.go serve
+
+# Kick off a client that will either send requests to the local service
+# or run a remote plugin, depending on the specification.
+.PHONY: client
+client:
+	AWS_PROFILE=deployTools cloudquery sync --log-level debug ~/Desktop/cq-source-image-packages-local-spec.yml

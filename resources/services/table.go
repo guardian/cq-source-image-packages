@@ -73,15 +73,9 @@ func FetchAmigoBakePackages(_ context.Context, meta schema.ClientMeta, _ *schema
 	}
 
 	allBaseImages := map[string]AmigoBaseImage{}
-	for _, baseImg := range baseImagesTable.ListAll() {
-		id := baseImg["id"].(*types.AttributeValueMemberS).Value
-		baseEolDate := baseImg["eolDate"].(*types.AttributeValueMemberS).Value
-		img := AmigoBaseImage{
-			BaseName:  id,
-			BaseAmiId: baseImg["amiId"].(*types.AttributeValueMemberS).Value,
-		}
-		img.SetBaseEolDate(baseEolDate)
-		allBaseImages[id] = img
+	for _, baseImgAttribs := range baseImagesTable.ListAll() {
+		baseImage := toAmigoBaseImage(baseImgAttribs)
+		allBaseImages[baseImage.BaseName] = baseImage
 	}
 
 	records := map[string]AmigoBakePackage{}
@@ -138,6 +132,20 @@ func FetchAmigoBakePackages(_ context.Context, meta schema.ClientMeta, _ *schema
 	}
 
 	return nil
+}
+
+func toAmigoBaseImage(baseImgAttribs map[string]types.AttributeValue) AmigoBaseImage {
+	baseImage := AmigoBaseImage{
+		BaseName:  baseImgAttribs["id"].(*types.AttributeValueMemberS).Value,
+		BaseAmiId: baseImgAttribs["amiId"].(*types.AttributeValueMemberS).Value,
+	}
+	if eolDateAttrib, ok := baseImgAttribs["eolDate"]; ok && eolDateAttrib != nil {
+		baseEolDate := eolDateAttrib.(*types.AttributeValueMemberS).Value
+		baseImage.SetBaseEolDate(baseEolDate)
+	} else {
+		baseImage.BaseEolDate = time.Time{}
+	}
+	return baseImage
 }
 
 func toTime(s string) (time.Time, error) {
