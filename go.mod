@@ -6,7 +6,7 @@ go 1.22.4
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.28.5
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.37.1
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.68.0
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.69.0
 	github.com/cloudquery/plugin-sdk/v4 v4.67.1
 	github.com/rs/zerolog v1.33.0
 )
