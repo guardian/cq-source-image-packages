@@ -21,7 +21,6 @@ func NewDynamoDb(client *dynamodb.Client, tableName string) DynamoDb {
 }
 
 // ListAll List all items in table
-// TODO: stream results instead - use dynamodbstreams service
 func (store DynamoDb) ListAll() []map[string]types.AttributeValue {
 	result, err := store.client.Scan(context.Background(), &dynamodb.ScanInput{
 		TableName: &store.tableName,
@@ -30,20 +29,13 @@ func (store DynamoDb) ListAll() []map[string]types.AttributeValue {
 		log.Fatalf("failed to scan table, %v", err)
 	}
 
-	return result.Items
-}
-
-// Get Fetch a single item from table
-func (store DynamoDb) Get(id string) (map[string]types.AttributeValue, error) {
-	result, err := store.client.GetItem(context.Background(), &dynamodb.GetItemInput{
-		TableName: &store.tableName,
-		Key: map[string]types.AttributeValue{
-			"id": &types.AttributeValueMemberS{Value: id},
-		},
-	})
-	if err != nil {
-		return nil, err
+	// If the scan limit is hit, the result will contain a LastEvaluatedKey
+	// In this case we'll need to modify the code to paginate through the results.
+	if result.LastEvaluatedKey != nil {
+		log.Fatalf("Table %s has more items than the scan limit", store.tableName)
 	}
 
-	return result.Item, nil
+	log.Printf("Found %d items in table %s", result.ScannedCount, store.tableName)
+
+	return result.Items
 }
