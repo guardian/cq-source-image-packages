@@ -1,3 +1,7 @@
+.PHONY: build
+build:
+	go build
+
 .PHONY: test
 test:
 	go test -timeout 10m ./...
@@ -19,8 +23,8 @@ gen: gen-docs
 serve:
 	AWS_PROFILE=deployTools go run main.go serve
 
-# Kick off a client that will either send requests to the local service
+# Kick off a process that will either send requests to the local service
 # or run a remote plugin, depending on the specification.
-.PHONY: client
-client:
+.PHONY: run
+run:
 	AWS_PROFILE=deployTools cloudquery sync --log-level debug ~/Desktop/cq-source-image-packages-local-spec.yml

@@ -5,9 +5,16 @@
 
 An image packages source plugin for CloudQuery that loads data from S3 and Dynamo DB to any database, data warehouse or data lake supported by [CloudQuery](https://www.cloudquery.io/), such as PostgreSQL, BigQuery, Athena, and many more.
 
+This plugin is currently used to collect data about image packages from the Amigo bake service.
+
+It was created using the CloudQuery skeleton generator: `cq-scaffold source guardian image-packages`.
+
+
 ## Links
 
  - [CloudQuery Quickstart Guide](https://www.cloudquery.io/docs/quickstart)
+ - [Source Spec Reference](https://docs.cloudquery.io/docs/reference/source-spec)
+ - [Creating a New CloudQuery Source Integration in Go](https://docs.cloudquery.io/docs/developers/creating-new-integration/go-source)
  - [Supported Tables](docs/tables/README.md)
 
 
@@ -58,7 +65,46 @@ make gen-docs
 
 ### Release a new version
 
+Before releasing a new version, test the integration locally by building a local SQLite database following these steps:
+1. Build the binary:
+```bash
+make build
+```
+2. Set up a local spec file with the required configuration:
+```yaml
+kind: source
+spec:
+  name: image-packages
+  registry: local
+  path: ./cq-source-image-packages
+  tables: ['amigo_bake_packages']
+  destinations:
+    - sqlite
+  spec:
+    base_images_table: <name of base images table>
+    recipes_table: <name of recipes table>
+    bakes_table: <name of bakes table>
+    bucket: <name of packages bucket>
+---
+kind: destination
+spec:
+  name: sqlite
+  path: cloudquery/sqlite
+  registry: cloudquery
+  version: v2.9.18
+  spec:
+    connection_string: <path to db.sql>
+```
+3. Run the binary with the spec file:
+```bash
+make run
+```
+4. Checking the [log](cloudquery.log) and the output in the destination SQLite database.
+
+Then, to release a new version:
 1. Run `git tag v1.0.0` to create a new tag for the release (replace `v1.0.0` with the new version number)
 2. Run `git push origin v1.0.0` to push the tag to GitHub  
 
 Once the tag is pushed, a new GitHub Actions workflow will be triggered to build the release binaries.
+
+## TODO / to add
