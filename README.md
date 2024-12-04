@@ -107,17 +107,17 @@ spec:
   registry: cloudquery
   version: v2.9.18
   spec:
-    connection_string: <path to db.sql>
+    connection_string: local/db.sql
 ```
 
 Then:
-1. Start up the plugin in debug mode:
+1. In a terminal window, start up the plugin in debug mode:
 ```bash
 make serve-debug
 ```
 2. Click on `Debug` in the Intellij run/debug configuration.
 3. Insert breakpoints into the code where required.
-4. Run the CloudQuery sync command:
+4. In another terminal window, run the CloudQuery sync command:
 ```bash
 make run
 ```
@@ -153,7 +153,7 @@ spec:
   registry: cloudquery
   version: v2.9.18
   spec:
-    connection_string: <path to db.sql>
+    connection_string: local/db.sql
 ```
 3. Run the binary with the spec file:
 ```bash

@@ -33,4 +33,4 @@ serve-debug:
 # or run a remote plugin, depending on the specification.
 .PHONY: run
 run:
-	AWS_PROFILE=deployTools cloudquery sync --log-level debug ~/Desktop/cq-source-image-packages-local-spec.yml
+	AWS_PROFILE=deployTools cloudquery sync --log-level debug local/cq-source-image-packages-spec.yml

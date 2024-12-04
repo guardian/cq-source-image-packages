@@ -26,3 +26,6 @@ dist
 
 # CloudQuery plugins
 *.cq
+
+# Local development - specs etc
+local
