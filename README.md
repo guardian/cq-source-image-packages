@@ -43,6 +43,19 @@ spec:
 
 ## Development
 
+### Code structure
+
+The entry point is [main.go](main.go).
+
+Package [client](client) contains the code to interact with the AWS services.
+
+Package [store](store) contains the code to interact with the AWS data sources.
+
+Package [plugin](resources/plugin) contains the code to interact with the CloudQuery source plugin.
+
+Package [services](resources/services) contains the code to generate target tables.
+
+
 ### Run tests
 
 ```bash
@@ -62,6 +75,53 @@ make lint
 ```bash
 make gen-docs
 ```
+
+### Debugging
+
+To debug the plugin in Intellij so that code can be stepped through with breakpoints, you will need:
+1. [Delve](https://github.com/go-delve/delve) debugger installed.
+2. A run/debug configuration set up in Intellij.
+To set this up, add an Intellij run/debug configuration:
+    1. `Run` > `Edit Configurations...` > `+` > `Go Remote`
+    2. Fill in `Host: localhost` and `Port: 7777`
+3. A local spec file that specifies a local gRPC process as the plugin:
+```yaml
+kind: source
+spec:
+  name: image-packages
+  registry: grpc
+  path: localhost:7777
+  tables: ['amigo_bake_packages']
+  destinations:
+    - sqlite
+  spec:
+    base_images_table: <name of base images table>
+    recipes_table: <name of recipes table>
+    bakes_table: <name of bakes table>
+    bucket: <name of packages bucket>
+---
+kind: destination
+spec:
+  name: sqlite
+  path: cloudquery/sqlite
+  registry: cloudquery
+  version: v2.9.18
+  spec:
+    connection_string: <path to db.sql>
+```
+
+Then:
+1. Start up the plugin in debug mode:
+```bash
+make serve-debug
+```
+2. Click on `Debug` in the Intellij run/debug configuration.
+3. Insert breakpoints into the code where required.
+4. Run the CloudQuery sync command:
+```bash
+make run
+```
+
 
 ### Release a new version
 
@@ -99,12 +159,10 @@ spec:
 ```bash
 make run
 ```
-4. Checking the [log](cloudquery.log) and the output in the destination SQLite database.
+4. Check the [log](cloudquery.log) and the output in the destination SQLite database.
 
 Then, to release a new version:
 1. Run `git tag v1.0.0` to create a new tag for the release (replace `v1.0.0` with the new version number)
 2. Run `git push origin v1.0.0` to push the tag to GitHub  
 
 Once the tag is pushed, a new GitHub Actions workflow will be triggered to build the release binaries.
-
-## TODO / to add
