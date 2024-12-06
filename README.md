@@ -78,13 +78,13 @@ make gen-docs
 
 ### Debugging
 
-To debug the plugin in Intellij so that code can be stepped through with breakpoints, you will need:
+To debug the plugin so that code can be stepped through with breakpoints, you will need:
 1. [Delve](https://github.com/go-delve/delve) debugger installed.
-2. A run/debug configuration set up in Intellij.
+2. If using Intellij, you will need a run/debug configuration set up.
 To set this up, add an Intellij run/debug configuration:
     1. `Run` > `Edit Configurations...` > `+` > `Go Remote`
     2. Fill in `Host: localhost` and `Port: 7777`
-3. A local spec file that specifies a local gRPC process as the plugin:
+3. A local spec file that specifies a local gRPC process as the plugin installed in a directory called `local` in this project root:
 ```yaml
 kind: source
 spec:
@@ -115,7 +115,7 @@ Then:
 ```bash
 make serve-debug
 ```
-2. Click on `Debug` in the Intellij run/debug configuration.
+2. Click on `Debug` in the Intellij run/debug configuration, or the green triangle in the `Debug plugin` in the `Run and debug` pane of Visual Studio.
 3. Insert breakpoints into the code where required.
 4. In another terminal window, run the CloudQuery sync command:
 ```bash
