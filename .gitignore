@@ -23,3 +23,17 @@ dist
 *.log
 
 .idea
+
+# CloudQuery plugins
+.cq
+
+# Local development - specs etc
+local
+
+# VSC local history plugin
+.lh/
+.history/
+
+# Debug processes
+.debug
+__debug_bin*
