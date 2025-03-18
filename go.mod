@@ -1,7 +1,8 @@
 module github.com/guardian/cq-source-image-packages
 
-go 1.22.7
-toolchain go1.23.3
+go 1.23.0
+
+toolchain go1.24.1
 
 // Compile-time dependencies
 require (
