@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"io"
+	"log"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
@@ -38,7 +39,11 @@ func (store S3) Get(key string) ([]byte, error) {
 		return nil, err
 	}
 
-	defer result.Body.Close()
+	defer func() {
+		if cerr := result.Body.Close(); cerr != nil {
+			log.Printf("failed to close result body: %v", cerr)
+		}
+	}()
 
 	return data, nil
 }
