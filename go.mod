@@ -4,11 +4,11 @@ go 1.24.1
 
 // Compile-time dependencies
 require (
-	github.com/aws/aws-sdk-go-v2/config v1.29.8
-	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.41.0
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.78.0
-	github.com/cloudquery/plugin-sdk/v4 v4.73.4
-	github.com/rs/zerolog v1.33.0
+	github.com/aws/aws-sdk-go-v2/config v1.29.13
+	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.42.1
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.79.1
+	github.com/cloudquery/plugin-sdk/v4 v4.75.0
+	github.com/rs/zerolog v1.34.0
 )
 
 // Runtime dependencies
@@ -18,34 +18,34 @@ require (
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.36.3 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.6.10 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.17.61 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.17.66 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.30 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.3.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.6.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.8.3 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.3.34 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.12.3 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.6.2 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.7.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.12.15 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.18.15 // indirect
-	github.com/aws/aws-sdk-go-v2/service/licensemanager v1.29.13 // indirect
-	github.com/aws/aws-sdk-go-v2/service/marketplacemetering v1.25.12 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.25.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.29.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.33.16 // indirect
+	github.com/aws/aws-sdk-go-v2/service/licensemanager v1.30.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/marketplacemetering v1.26.2 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.25.3 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.30.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.33.18 // indirect
 	github.com/aws/smithy-go v1.22.2 // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
-	github.com/cloudquery/cloudquery-api-go v1.13.5 // indirect
-	github.com/cloudquery/plugin-pb-go v1.26.6 // indirect
+	github.com/cloudquery/cloudquery-api-go v1.13.7 // indirect
+	github.com/cloudquery/plugin-pb-go v1.26.8 // indirect
 	github.com/cloudquery/plugin-sdk/v2 v2.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/goccy/go-json v0.10.4 // indirect
-	github.com/google/flatbuffers v24.12.23+incompatible // indirect
+	github.com/goccy/go-json v0.10.5 // indirect
+	github.com/google/flatbuffers v25.2.10+incompatible // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.2.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.25.1 // indirect
@@ -53,8 +53,8 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/invopop/jsonschema v0.13.0 // indirect
-	github.com/klauspost/compress v1.17.11 // indirect
-	github.com/klauspost/cpuid/v2 v2.2.9 // indirect
+	github.com/klauspost/compress v1.18.0 // indirect
+	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
@@ -82,23 +82,23 @@ require (
 	go.opentelemetry.io/otel/trace v1.34.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.5.0 // indirect
 	golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67 // indirect
-	golang.org/x/mod v0.22.0 // indirect
+	golang.org/x/mod v0.23.0 // indirect
 	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sync v0.11.0 // indirect
-	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
-	golang.org/x/tools v0.29.0 // indirect
+	golang.org/x/tools v0.30.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250115164207-1a7da9e5054f // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250115164207-1a7da9e5054f // indirect
-	google.golang.org/grpc v1.70.0 // indirect
-	google.golang.org/protobuf v1.36.4 // indirect
+	google.golang.org/grpc v1.71.0 // indirect
+	google.golang.org/protobuf v1.36.5 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
-	github.com/apache/arrow-go/v18 v18.1.0 // indirect
+	github.com/apache/arrow-go/v18 v18.2.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.10.15 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 )
