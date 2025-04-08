@@ -1,13 +1,14 @@
 module github.com/guardian/cq-source-image-packages
 
 go 1.24.1
+
 // Compile-time dependencies
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.29.9
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.41.0
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.78.0
 	github.com/cloudquery/plugin-sdk/v4 v4.75.0
-	github.com/rs/zerolog v1.33.0
+	github.com/rs/zerolog v1.34.0
 )
 
 // Runtime dependencies
