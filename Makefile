@@ -10,10 +10,14 @@ test:
 lint:
 	@golangci-lint run --timeout 10m
 
+# Generate documentation
 .PHONY: gen-docs
-gen-docs:
+gen-docs: build
 	rm -rf ./docs/tables/*
-	go run main.go doc ./docs/tables
+	mkdir -p ./docs/tables
+	# Use cloudquery command from PATH to generate docs
+	cloudquery tables docs/spec.yml --output-dir . --format markdown
+
 
 # All gen targets
 .PHONY: gen
