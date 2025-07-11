@@ -16,8 +16,10 @@
 
 
 .DS_Store
+# Build artifacts
+/cq-source-image-packages
+/cloudquery
 
-cq-source-image-packages
 
 dist
 *.log
