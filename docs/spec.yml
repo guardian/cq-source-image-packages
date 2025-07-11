@@ -1,0 +1,7 @@
+kind: source
+spec:
+  name: docs/tables
+  path: "./cq-source-image-packages"
+  registry: "local"
+  tables: ["*"]
+  destinations: ["null"]

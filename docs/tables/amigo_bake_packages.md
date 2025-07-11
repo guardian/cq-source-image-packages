@@ -1,7 +1,5 @@
 # Table: amigo_bake_packages
 
-This table shows data for Amigo Bake Packages.
-
 The primary key for this table is **_cq_id**.
 
 ## Columns
