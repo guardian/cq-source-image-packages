@@ -12,11 +12,11 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 2
       - name: Set up Go 1.x
-        uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
+        uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
         with:
           go-version-file: go.mod
       - name: golangci-lint
@@ -31,7 +31,7 @@ jobs:
       - name: Test
         run: make test
       - name: Setup Cloudquery CLI
-        uses: cloudquery/setup-cloudquery@b28d6a2ee899e112b667285cce4fe9cb9b7129a3 # v4.1.8
+        uses: cloudquery/setup-cloudquery@1a08abb8d5bda9e06e62e4c065fa97af0e6961ae # v4.1.9
         with:
           version: 'v6.20.5'
       - name: gen
