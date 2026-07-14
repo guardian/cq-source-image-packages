@@ -5,11 +5,19 @@ updates:
     directory: /
     schedule:
       interval: quarterly
+    cooldown:
+      default-days: 2
+    patterns:
+      actions-nonbreaking:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
 
   - package-ecosystem: gomod
     directory: /
     schedule:
       interval: quarterly
+    cooldown:
+      default-days: 2
     groups:
       # The AWS SDK dependencies must be updated in unison.
       # See https://github.com/aws/aws-sdk-go-v2/issues/2370#issuecomment-1878423518.
@@ -17,3 +25,6 @@ updates:
         patterns:
           - "github.com/aws/aws-sdk-go-v2"
           - "github.com/aws/aws-sdk-go-v2/*"
+      go-nonbreaking:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
