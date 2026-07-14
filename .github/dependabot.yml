@@ -7,7 +7,7 @@ updates:
       interval: quarterly
     cooldown:
       default-days: 2
-    patterns:
+    groups:
       actions-nonbreaking:
         patterns: ["*"]
         update-types: ["minor", "patch"]
