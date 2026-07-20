@@ -6,7 +6,7 @@ updates:
     schedule:
       interval: quarterly
     cooldown:
-      default-days: 2
+      default-days: 7
     groups:
       actions-nonbreaking:
         patterns: ["*"]
@@ -17,7 +17,7 @@ updates:
     schedule:
       interval: quarterly
     cooldown:
-      default-days: 2
+      default-days: 7
     groups:
       # The AWS SDK dependencies must be updated in unison.
       # See https://github.com/aws/aws-sdk-go-v2/issues/2370#issuecomment-1878423518.
